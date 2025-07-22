@@ -51,7 +51,7 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           submodules: recursive
       - name: Install cargo-dist
@@ -71,7 +71,7 @@ jobs:
           cat dist-manifest.json
           echo "manifest=$(jq -c "." dist-manifest.json)" >> "$GITHUB_OUTPUT"
       - name: "Upload dist-manifest.json"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: artifacts
           path: dist-manifest.json
@@ -101,15 +101,15 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       BUILD_MANIFEST_NAME: target/distrib/${{ join(matrix.targets, '-') }}-dist-manifest.json
     steps:
-      - uses: actions/checkout@v4
+      - uses: checkout@v4.2.2
         with:
           submodules: recursive
-      - uses: swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@v2.8.0
       - name: Install cargo-dist
         run: ${{ matrix.install_dist }}
       # Get the dist-manifest
       - name: Fetch local artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.3.0
         with:
           name: artifacts
           path: target/distrib/
@@ -159,7 +159,7 @@ jobs:
         run: "curl --proto '=https' --tlsv1.2 -LsSf https://github.com/axodotdev/cargo-dist/releases/download/v0.7.1/cargo-dist-installer.sh | sh"
       # Get all the local artifacts for the global tasks to use (for e.g. checksums)
       - name: Fetch local artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.3.0
         with:
           name: artifacts
           path: target/distrib/
@@ -176,7 +176,7 @@ jobs:
 
           cp dist-manifest.json "$BUILD_MANIFEST_NAME"
       - name: "Upload artifacts"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: artifacts
           path: |
