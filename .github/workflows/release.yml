@@ -20,10 +20,12 @@ jobs:
           curl --proto '=https' --tlsv1.2 -LsSf \
             https://github.com/axodotdev/cargo-dist/releases/download/v0.7.1/cargo-dist-installer.sh | sh
 
+      - name: Initialize cargo-dist
+        run: cargo dist init --allow-dirty
+
       # Build for the host platform only
       - name: Build
-        run: |
-          cargo dist build --output-format=json > dist-manifest.json
+        run: cargo dist build --output-format=json > dist-manifest.json
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
