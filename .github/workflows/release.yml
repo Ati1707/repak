@@ -1,4 +1,4 @@
-name: Release
+name: Build
 
 on: push
 
@@ -6,7 +6,7 @@ permissions:
   contents: read
 
 jobs:
-  build-and-upload:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,13 +20,14 @@ jobs:
           curl --proto '=https' --tlsv1.2 -LsSf \
             https://github.com/axodotdev/cargo-dist/releases/download/v0.7.1/cargo-dist-installer.sh | sh
 
+      # Build for the host platform only
       - name: Build
         run: |
-          cargo dist build --tag=${{ github.ref_name }} --output-format=json > dist-manifest.json
+          cargo dist build --output-format=json > dist-manifest.json
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: release-${{ github.ref_name }}
+          name: build-${{ github.sha }}
           path: |
             target/distrib/*
