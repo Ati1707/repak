@@ -21,7 +21,7 @@ jobs:
             https://github.com/axodotdev/cargo-dist/releases/download/v0.7.1/cargo-dist-installer.sh | sh
 
       - name: Initialize cargo-dist
-        run: cargo dist init --allow-dirty
+        run: cargo dist init --allow-dirty --no-interaction
 
       # Build for the host platform only
       - name: Build
